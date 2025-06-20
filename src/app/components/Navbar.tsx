@@ -1,48 +1,41 @@
-import Link from "next/link";
+import Link from "next/link"
+import { Calculator, Grid3X3, RotateCcw, FlipHorizontal, Sigma } from "lucide-react"
 
 const Navbar = () => (
-  <nav className="bg-gray-900 p-4 shadow-md">
-    <div className="container mx-auto flex justify-between items-center">
-      {/* Logo / Home */}
-      <h1 className="text-2xl font-semibold text-gray-100">
-        <Link href="/" className="flex items-center gap-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-            stroke="currentColor"
-            className="w-7 h-7 text-yellow-400"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 3v18m9-9H3"
-            />
-          </svg>
-          <span className="text-yellow-400">Matrix App</span>
+  <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+    <div className="container mx-auto px-6 py-4">
+      <div className="flex justify-between items-center">
+        {/* Logo / Home */}
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className="p-2 bg-gradient-to-br from-blue-500 to-violet-600 rounded-xl group-hover:scale-105 transition-transform">
+            <Calculator className="w-6 h-6 text-white" />
+          </div>
+          <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
+            Matrix Calculator
+          </span>
         </Link>
-      </h1>
 
-      {/* Navigation Links */}
-      <div className="flex space-x-6">
-        {[
-          { href: "/operasi", label: "Operasi" },
-          { href: "/determinan", label: "Determinan" },
-          { href: "/invers", label: "Invers" },
-          { href: "/transpos", label: "Transpos" },
-        ].map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className="text-gray-300 text-lg font-medium transition hover:text-yellow-400 hover:underline"
-          >
-            {item.label}
-          </Link>
-        ))}
+        {/* Navigation Links */}
+        <div className="flex space-x-1">
+          {[
+            { href: "/operation", label: "Operasi", icon: Grid3X3, color: "blue" },
+            { href: "/determinant", label: "Determinan", icon: Sigma, color: "emerald" },
+            { href: "/inverse", label: "Invers", icon: FlipHorizontal, color: "violet" },
+            { href: "/transpose", label: "Transpos", icon: RotateCcw, color: "amber" },
+          ].map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200 font-medium"
+            >
+              <item.icon className="w-4 h-4" />
+              {item.label}
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   </nav>
-);
+)
 
-export default Navbar;
+export default Navbar

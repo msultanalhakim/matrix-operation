@@ -1,49 +1,51 @@
-"use client"; // Menandakan ini adalah Client Component
+"use client"
 
-import React, { useState, useEffect } from "react";
+import type React from "react"
+import { useState, useEffect } from "react"
 
 type MatrixInputProps = {
-  order: number; // Order (ordo) dari matriks
-  onMatrixChange: (matrix: number[][]) => void; // Callback saat matriks diubah
-};
+  order: number
+  onMatrixChange: (matrix: number[][]) => void
+  title?: string
+}
 
-const MatrixInput: React.FC<MatrixInputProps> = ({ order, onMatrixChange }) => {
-  const [matrix, setMatrix] = useState<number[][]>(
-    Array.from({ length: order }, () => Array(order).fill(0))
-  );
+const MatrixInput: React.FC<MatrixInputProps> = ({ order, onMatrixChange, title }) => {
+  const [matrix, setMatrix] = useState<number[][]>(Array.from({ length: order }, () => Array(order).fill(0)))
 
-  // Set ulang matriks saat ordo berubah
   useEffect(() => {
-    setMatrix(Array.from({ length: order }, () => Array(order).fill(0)));
-  }, [order]);
+    const newMatrix = Array.from({ length: order }, () => Array(order).fill(0))
+    setMatrix(newMatrix)
+    onMatrixChange(newMatrix)
+  }, [order])
 
   const handleChange = (row: number, col: number, value: string) => {
-    const updatedMatrix = [...matrix];
-    updatedMatrix[row][col] = parseFloat(value) || 0; // Memastikan nilai valid
-    setMatrix(updatedMatrix);
-    onMatrixChange(updatedMatrix); // Mengirim matriks ke parent
-  };
+    const updatedMatrix = [...matrix]
+    updatedMatrix[row][col] = Number.parseFloat(value) || 0
+    setMatrix(updatedMatrix)
+    onMatrixChange(updatedMatrix)
+  }
 
   return (
-    <div className="mb-4">
-      <h2 className="text-lg font-bold text-center">Matriks ({order}x{order})</h2>
-      <div className="space-y-2">
+    <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+      <h3 className="text-lg font-semibold text-gray-800 text-center mb-4">{title || `Matrix (${order}×${order})`}</h3>
+      <div className="flex flex-col items-center gap-3">
         {matrix.map((row, rowIndex) => (
-          <div key={rowIndex} className="flex justify-center gap-2">
-          {row.map((value, colIndex) => (
+          <div key={rowIndex} className="flex gap-3">
+            {row.map((value, colIndex) => (
               <input
                 key={colIndex}
                 type="number"
-                value={value}
+                value={value || ""}
                 onChange={(e) => handleChange(rowIndex, colIndex, e.target.value)}
-                className="w-16 h-16 m-1 p-2 text-center text-zinc-800 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-14 h-14 text-center text-gray-800 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-300 transition-all font-medium"
+                placeholder="0"
               />
             ))}
           </div>
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default MatrixInput;
+export default MatrixInput

@@ -1,54 +1,52 @@
-"use client";
+"use client"
 
-import React, { useState, useEffect } from "react";
+import type React from "react"
+import { useState, useEffect } from "react"
 
 type InversInputProps = {
-  order: number; // Ordo matriks (2x2, 3x3, dst.)
-  onMatrixChange: (matrix: number[][]) => void; // Callback untuk mengirim matriks yang diubah
-};
+  order: number
+  onMatrixChange: (matrix: number[][]) => void
+}
 
 const InversInput: React.FC<InversInputProps> = ({ order, onMatrixChange }) => {
-  const [matrix, setMatrix] = useState<number[][]>(
-    Array.from({ length: order }, () => Array(order).fill(0))
-  );
+  const [matrix, setMatrix] = useState<number[][]>(Array.from({ length: order }, () => Array(order).fill(0)))
 
-  // Update matriks ketika ordo berubah
   useEffect(() => {
-    const newMatrix = Array.from({ length: order }, () =>
-      Array(order).fill(0)
-    );
-    setMatrix(newMatrix);
-    onMatrixChange(newMatrix); // Reset matriks ke parent ketika ordo berubah
-  }, [order, onMatrixChange]);
+    const newMatrix = Array.from({ length: order }, () => Array(order).fill(0))
+    setMatrix(newMatrix)
+    onMatrixChange(newMatrix)
+  }, [order, onMatrixChange])
 
-  // Handle perubahan nilai elemen matriks
   const handleChange = (row: number, col: number, value: string) => {
-    const updatedMatrix = [...matrix];
-    updatedMatrix[row][col] = parseFloat(value) || 0; // Pastikan nilai yang diinput valid
-    setMatrix(updatedMatrix);
-    onMatrixChange(updatedMatrix); // Kirim nilai matriks yang diperbarui ke parent
-  };
+    const updatedMatrix = [...matrix]
+    updatedMatrix[row][col] = Number.parseFloat(value) || 0
+    setMatrix(updatedMatrix)
+    onMatrixChange(updatedMatrix)
+  }
 
   return (
-    <div className="mb-4">
-      <h2 className="text-lg font-bold text-center">Matriks ({order}x{order})</h2>
-      <div className="space-y-2">
+    <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+      <h3 className="text-lg font-semibold text-gray-800 text-center mb-4">
+        Matrix ({order}×{order})
+      </h3>
+      <div className="flex flex-col items-center gap-3">
         {matrix.map((row, rowIndex) => (
-          <div key={rowIndex} className="flex justify-center gap-2">
+          <div key={rowIndex} className="flex gap-3">
             {row.map((value, colIndex) => (
               <input
                 key={colIndex}
                 type="number"
-                value={value}
+                value={value || ""}
                 onChange={(e) => handleChange(rowIndex, colIndex, e.target.value)}
-                className="w-16 h-16 bg-white-400 text-zinc-800 border border-gray-700 rounded-lg text-center shadow-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                className="w-14 h-14 text-center text-gray-800 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent hover:border-gray-300 transition-all font-medium"
+                placeholder="0"
               />
             ))}
           </div>
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default InversInput;
+export default InversInput

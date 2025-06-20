@@ -31,7 +31,7 @@ export const calculateDeterminant = (matrix: number[][]): { value: number; steps
     const steps = "Ekspansi kofaktor diterapkan (tidak ditampilkan dalam detail).";
     return { value: determinant, steps };
   } else {
-    throw new Error("Matrix order is not supported. Only 2x2, 3x3, and 4x4 matrices are allowed.");
+    throw new Error("Ordo Matriks hanya mendukung 2x2, 3x3, dan 4x4 matriks saja.");
   }
 };
 
