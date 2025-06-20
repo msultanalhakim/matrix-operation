@@ -18,10 +18,10 @@ const Navbar = () => (
         {/* Navigation Links */}
         <div className="flex space-x-1">
           {[
-            { href: "/operation", label: "Operasi", icon: Grid3X3, color: "blue" },
-            { href: "/determinant", label: "Determinan", icon: Sigma, color: "emerald" },
-            { href: "/inverse", label: "Invers", icon: FlipHorizontal, color: "violet" },
-            { href: "/transpose", label: "Transpos", icon: RotateCcw, color: "amber" },
+            { href: "/operation", label: "Operation", icon: Grid3X3, color: "blue" },
+            { href: "/determinant", label: "Determinant", icon: Sigma, color: "emerald" },
+            { href: "/inverse", label: "Inverse", icon: FlipHorizontal, color: "violet" },
+            { href: "/transpose", label: "Transpose", icon: RotateCcw, color: "amber" },
           ].map((item) => (
             <Link
               key={item.href}

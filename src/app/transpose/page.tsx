@@ -2,9 +2,9 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import MatrixInput from "../components/MatrixInput"
-import calculateTranspose from "../utils/transpos"
+import calculateTranspose from "../utils/transpose"
 import Navbar from "../components/Navbar"
 import { RotateCcw, Calculator } from "lucide-react"
 
@@ -20,10 +20,10 @@ const TransposePage = () => {
     setResult(null)
   }
 
-  const handleMatrixChange = (newMatrix: number[][]) => {
+  const handleMatrixChange = useCallback((newMatrix: number[][]) => {
     setMatrix(newMatrix)
     setResult(null)
-  }
+  }, [])
 
   const handleCalculate = () => {
     if (matrix.length === order && matrix[0].length === order) {

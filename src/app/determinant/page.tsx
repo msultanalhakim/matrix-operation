@@ -1,14 +1,17 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import MatrixInput from "../components/DeterminanInput"
-import { calculateDeterminant } from "../utils/determinan"
+import { calculateDeterminant } from "../utils/determinant"
 import Navbar from "../components/Navbar"
 import { Calculator, Hash } from "lucide-react"
 
 const DeterminantPage = () => {
   const [order, setOrder] = useState(2)
   const [matrix, setMatrix] = useState<number[][]>(Array.from({ length: order }, () => Array(order).fill(0)))
+  const handleMatrixChange = useCallback((newMatrix: number[][]) => {
+    setMatrix(newMatrix)
+  }, [])
   const [result, setResult] = useState<{ value: number; steps: string } | null>(null)
 
   const handleCalculate = () => {
@@ -60,7 +63,7 @@ const DeterminantPage = () => {
 
             {/* Matrix Input */}
             <div className="flex justify-center mb-8">
-              <MatrixInput order={order} onMatrixChange={setMatrix} />
+              <MatrixInput order={order} onMatrixChange={handleMatrixChange} />
             </div>
 
             {/* Calculate Button */}

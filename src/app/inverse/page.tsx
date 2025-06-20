@@ -1,15 +1,18 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import InversInput from "../components/InversInput"
 import Navbar from "../components/Navbar"
-import calculateInverse from "../utils/invers"
+import calculateInverse from "../utils/inverse"
 import { FlipHorizontal, Calculator } from "lucide-react"
 
 const InversePage = () => {
   const [order, setOrder] = useState(3)
   const [matrix, setMatrix] = useState<number[][]>(Array.from({ length: order }, () => Array(order).fill(0)))
+  const handleMatrixChange = useCallback((newMatrix: number[][]) => {
+    setMatrix(newMatrix)
+  }, [])
   const [inverseResult, setInverseResult] = useState<number[][] | null>(null)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
@@ -19,20 +22,19 @@ const InversePage = () => {
   }
 
   const handleCalculateInverse = () => {
-  try {
-    const { inverse } = calculateInverse(matrix);
-    setInverseResult(inverse);
-    setErrorMessage(null);
-  } catch (error) { 
-    if (error instanceof Error) {
-      setErrorMessage(error.message);
-    } else {
-      setErrorMessage("An unknown error occurred.");
+    try {
+      const { inverse } = calculateInverse(matrix)
+      setInverseResult(inverse)
+      setErrorMessage(null)
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message)
+      } else {
+        setErrorMessage("Error calculating matrix inverse.")
+      }
+      setInverseResult(null)
     }
-    setInverseResult(null);
   }
-};
-
   
 
   return (
@@ -75,7 +77,7 @@ const InversePage = () => {
 
             {/* Matrix Input */}
             <div className="flex justify-center mb-8">
-              <InversInput order={order} onMatrixChange={setMatrix} />
+              <InversInput order={order} onMatrixChange={handleMatrixChange} />
             </div>
 
             {/* Calculate Button */}

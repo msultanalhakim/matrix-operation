@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useCallback, useState } from "react"
+import { useState, useCallback } from "react"
 import MatrixInput from "../components/MatrixInput"
 import Navbar from "../components/Navbar"
 import { Grid3X3, Plus, Minus, X, Divide } from "lucide-react"
@@ -26,12 +26,17 @@ const MatrixPage = () => {
   }
 
   const handleMatrixChange = useCallback((index: number, newMatrix: number[][]) => {
-    setMatrices(prevMatrices => {
-      const updatedMatrices = [...prevMatrices];
-      updatedMatrices[index] = newMatrix;
-      return updatedMatrices;
-    });
-  }, []);
+    setMatrices((prev) => {
+      const updated = [...prev]
+      updated[index] = newMatrix
+      return updated
+    })
+  }, [])
+  
+  const getMatrixChangeHandler = useCallback(
+    (index: number) => (newMatrix: number[][]) => handleMatrixChange(index, newMatrix),
+    [handleMatrixChange]
+  )
 
   const calculateResult = () => {
     if (matrices.length < 2 || matrices.some((matrix) => !matrix || matrix.length === 0 || matrix[0].length === 0)) {
@@ -66,10 +71,10 @@ const MatrixPage = () => {
   const result = calculateResult()
 
   const operations = [
-    { key: "sum", label: "Add", icon: Plus, color: "blue" },
-    { key: "subtract", label: "Subtract", icon: Minus, color: "red" },
-    { key: "multiply", label: "Multiply", icon: X, color: "green" },
-    { key: "divide", label: "Divide", icon: Divide, color: "purple" },
+    { key: "sum", label: "Add", icon: Plus, colorClass: "bg-blue-500" },
+    { key: "subtract", label: "Subtract", icon: Minus, colorClass: "bg-red-500" },
+    { key: "multiply", label: "Multiply", icon: X, colorClass: "bg-green-500" },
+    { key: "divide", label: "Divide", icon: Divide, colorClass: "bg-purple-500" },
   ]
 
   return (
@@ -127,7 +132,7 @@ const MatrixPage = () => {
                 <MatrixInput
                   key={index}
                   order={order}
-                  onMatrixChange={(newMatrix) => handleMatrixChange(index, newMatrix)}
+                  onMatrixChange={getMatrixChangeHandler(index)}
                   title={`Matrix ${String.fromCharCode(65 + index)}`}
                 />
               ))}
@@ -141,7 +146,7 @@ const MatrixPage = () => {
                   onClick={() => setOperation(op.key)}
                   className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
                     operation === op.key
-                      ? `bg-${op.color}-500 text-white shadow-lg`
+                      ? `${op.colorClass} text-white shadow-lg`
                       : "bg-white text-gray-700 border border-gray-200 hover:bg-gray-50"
                   }`}
                 >

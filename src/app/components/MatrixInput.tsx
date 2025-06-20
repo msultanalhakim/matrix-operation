@@ -13,10 +13,15 @@ const MatrixInput: React.FC<MatrixInputProps> = ({ order, onMatrixChange, title 
   const [matrix, setMatrix] = useState<number[][]>(Array.from({ length: order }, () => Array(order).fill(0)))
 
   useEffect(() => {
-    const newMatrix = Array.from({ length: order }, () => Array(order).fill(0))
-    setMatrix(newMatrix)
-    onMatrixChange(newMatrix)
-  }, [order, onMatrixChange])
+    setMatrix((prevMatrix) => {
+      if (prevMatrix.length === order && prevMatrix[0]?.length === order) {
+        return prevMatrix // tidak diubah
+      }
+      const newMatrix = Array.from({ length: order }, () => Array(order).fill(0))
+      onMatrixChange(newMatrix)
+      return newMatrix
+    })
+  }, [order, onMatrixChange]) 
 
   const handleChange = (row: number, col: number, value: string) => {
     const updatedMatrix = [...matrix]
