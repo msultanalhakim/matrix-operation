@@ -2,7 +2,9 @@ const calculateInverse = (matrix: number[][]) => {
   const n = matrix.length; // Ordo matriks
   let determinant = 0;
   let inverse: number[][] = [];
-  let steps: string[] = [];
+  
+  // --- HANYA BARIS INI YANG DIUBAH: 'let' menjadi 'const' ---
+  const steps: string[] = []; // Variabel ini tidak pernah di-reassign, hanya di-mutate (push), jadi harus 'const'.
 
   // Hitung determinan matriks menggunakan metode ekspansi minor (rekursif)
   const calculateDeterminant = (mat: number[][]): number => {
