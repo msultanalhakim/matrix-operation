@@ -3,8 +3,7 @@ const calculateInverse = (matrix: number[][]) => {
   let determinant = 0;
   let inverse: number[][] = [];
   
-  // --- HANYA BARIS INI YANG DIUBAH: 'let' menjadi 'const' ---
-  const steps: string[] = []; // Variabel ini tidak pernah di-reassign, hanya di-mutate (push), jadi harus 'const'.
+  const steps: string[] = [];
 
   // Hitung determinan matriks menggunakan metode ekspansi minor (rekursif)
   const calculateDeterminant = (mat: number[][]): number => {

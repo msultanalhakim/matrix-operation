@@ -16,7 +16,7 @@ const MatrixInput: React.FC<MatrixInputProps> = ({ order, onMatrixChange, title 
     const newMatrix = Array.from({ length: order }, () => Array(order).fill(0))
     setMatrix(newMatrix)
     onMatrixChange(newMatrix)
-  }, [order])
+  }, [order, onMatrixChange])
 
   const handleChange = (row: number, col: number, value: string) => {
     const updatedMatrix = [...matrix]

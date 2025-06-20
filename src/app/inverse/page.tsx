@@ -19,15 +19,19 @@ const InversePage = () => {
   }
 
   const handleCalculateInverse = () => {
-    try {
-      const { inverse } = calculateInverse(matrix)
-      setInverseResult(inverse)
-      setErrorMessage(null)
-    } catch (error: any) {
-      setErrorMessage(error.message || "Error calculating matrix inverse.")
-      setInverseResult(null)
+  try {
+    const { inverse } = calculateInverse(matrix);
+    setInverseResult(inverse);
+    setErrorMessage(null);
+  } catch (error) { 
+    if (error instanceof Error) {
+      setErrorMessage(error.message);
+    } else {
+      setErrorMessage("An unknown error occurred.");
     }
+    setInverseResult(null);
   }
+};
 
   
 

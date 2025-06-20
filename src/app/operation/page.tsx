@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import MatrixInput from "../components/MatrixInput"
 import Navbar from "../components/Navbar"
 import { Grid3X3, Plus, Minus, X, Divide } from "lucide-react"
@@ -25,11 +25,13 @@ const MatrixPage = () => {
     setMatrices(new Array(num).fill(null))
   }
 
-  const handleMatrixChange = (index: number, newMatrix: number[][]) => {
-    const updatedMatrices = [...matrices]
-    updatedMatrices[index] = newMatrix
-    setMatrices(updatedMatrices)
-  }
+  const handleMatrixChange = useCallback((index: number, newMatrix: number[][]) => {
+    setMatrices(prevMatrices => {
+      const updatedMatrices = [...prevMatrices];
+      updatedMatrices[index] = newMatrix;
+      return updatedMatrices;
+    });
+  }, []);
 
   const calculateResult = () => {
     if (matrices.length < 2 || matrices.some((matrix) => !matrix || matrix.length === 0 || matrix[0].length === 0)) {
